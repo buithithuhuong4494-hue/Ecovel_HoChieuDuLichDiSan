@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Tài khoản - ECOVEL</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="auth-page">
+
+    <div class="auth-container">
+
+        <h1>ECOVEL</h1>
+
+        <p>Travel local - trải nghiệm global</p>
+
+        <div class="auth-tabs">
+
+            <button id="loginTab" class="active" type="button" onclick="showLogin()">
+                Đăng nhập
+            </button>
+
+            <button id="registerTab" type="button" onclick="showRegister()">
+                Đăng ký
+            </button>
+
+        </div>
+
+        <div id="loginForm" class="auth-box">
+
+            <h2>Đăng nhập</h2>
+
+            <input type="email" id="loginEmail" placeholder="Email">
+            <input type="password" id="loginPassword" placeholder="Mật khẩu">
+            <p id="loginMessage"></p>
+
+            <button type="button" onclick="login()">Đăng nhập</button>
+
+        </div>
+
+        <div id="registerForm" class="auth-box hidden">
+            <h2>Đăng ký</h2>
+
+            <input id="regName" type="text" placeholder="Họ và tên">
+            <input id="regEmail" type="email" placeholder="Email">
+            <input id="regPassword" type="password" placeholder="Mật khẩu">
+
+            <button onclick="register()">Đăng ký</button>
+
+            <p id="registerMessage"></p>
+        </div>
+        <a href="index.html" class="back-home">
+            ← Quay lại trang chủ
+        </a>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="script.js"></script>
+
+</body>
+
+</html>

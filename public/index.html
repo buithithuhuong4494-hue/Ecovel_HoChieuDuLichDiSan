@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ECOVEL</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="website-container">
+
+        <header class="top-navbar">
+            <div class="top-logo">ECOVEL</div>
+
+            <nav class="top-menu">
+                <a href="#about">Về chúng tôi</a>
+                <a href="#achievement">Thành tựu hành trình</a>
+                <a href="#map">Bản đồ chinh phục</a>
+                <a href="#profile">Hồ sơ nhà khám phá</a>
+                <a href="#contact">Liên hệ</a>
+            </nav>
+
+            <a href="auth.html" class="top-register">CHECK-IN NGAY</a>
+        </header>
+
+        <section class="home-hero" id="home">
+            <header class="main-nav">
+            </header>
+
+        </section>
+
+        <section id="achievement" class="section">
+            <h2>Thành tựu hành trình</h2>
+        </section>
+
+        <section id="map" class="section">
+            <h2>Bản đồ chinh phục</h2>
+        </section>
+
+        <section id="profile" class="section">
+            <h2>Hồ sơ nhà khám phá</h2>
+        </section>
+            </section>
+
+            <section id="heritage" class="section">
+                <h2>Khám phá địa điểm nổi bật</h2>
+
+                <div class="grid heritage-grid">
+
+                    <div class="card">
+                        <img src="images/Nha_tho_Duc_Ba.jpg" class="heritage-img">
+                        <h3>Nhà thờ Đức Bà</h3>
+                        <p>Nhà thờ Đức Bà là công trình kiến trúc nổi bật tại trung tâm TP.HCM.</p>
+                        <p><b>Địa chỉ:</b> Quận 1, TP.HCM</p>
+                        <p><b>Gợi ý:</b> Nên tham quan vào buổi sáng để chụp ảnh đẹp.</p>
+                        <button class="small-btn">Xem thêm</button>
+                    </div>
+
+                    <div class="card">
+                        <img src="images/Cho_Ben_Thanh.jpg" class="heritage-img">
+                        <h3>Chợ Bến Thành</h3>
+                        <p>Chợ Bến Thành là biểu tượng văn hóa và thương mại lâu đời của Sài Gòn.</p>
+                        <p><b>Địa chỉ:</b> Quận 1, TP.HCM</p>
+                        <p><b>Gợi ý:</b> Có thể ghé buổi tối để trải nghiệm ẩm thực đường phố.</p>
+                        <button class="small-btn">Xem thêm</button>
+                    </div>
+
+                    <div class="card">
+                        <img src="images/Dinh_Doc_Lap.jpg" class="heritage-img">
+                        <h3>Dinh Độc Lập</h3>
+                        <p>Dinh Độc Lập là di tích lịch sử quốc gia đặc biệt của Việt Nam.</p>
+                        <p><b>Địa chỉ:</b> Quận 1, TP.HCM</p>
+                        <p><b>Gợi ý:</b> Nên tham quan vào buổi sáng hoặc chiều mát.</p>
+                        <button class="small-btn">Xem thêm</button>
+                    </div>
+
+                </div>
+            </section>
+
+            <section id="checkin" class="checkin-showcase">
+                <h2>Check-in địa điểm</h2>
+
+                <div class="checkin-card">
+                    <label>Chọn địa điểm</label>
+
+                    <select id="locationId">
+                        <option>Trọ của tôi</option>
+                        <option>Nhà thờ Đức Bà</option>
+                        <option>Dinh Độc Lập</option>
+                        <option>Chợ Bến Thành</option>
+                    </select>
+
+                    <img id="placeImage" class="place-img">
+
+                    <button onclick="checkIn()">Check-in</button>
+
+                    <p id="result"></p>
+                    <p class="note">Vui lòng đứng tại địa điểm để check-in.</p>
+
+                    <h3 class="history-title">Lịch sử check-in</h3>
+                    <div id="historyList" class="history-list"></div>
+                </div>
+            </section>
+
+            <section id="about" class="section">
+                <h2>Giới thiệu</h2>
+                <p>
+                    Du lịch xanh – Travel local — trải nghiệm global.
+                    “Hộ chiếu Du lịch Di sản” hướng đến trải nghiệm du lịch thân thiện với môi trường và lan tỏa lối
+                    sống
+                    xanh đến cộng đồng.
+                    Bạn có thể cùng tụi mình:
+                    Mang theo bình nước cá nhân.
+                    Hạn chế sử dụng đồ nhựa dùng một lần.
+                    Ưu tiên đi bộ hoặc sử dụng phương tiện công cộng.
+                    Giữ gìn vệ sinh tại các điểm tham quan.
+                    Ủng hộ các sản phẩm thủ công và local brand địa phương.
+                    Một chuyến đi đẹp không chỉ nằm ở nơi bạn đến, mà còn ở cách bạn để lại dấu chân của mình trên hành
+                    trình đó.
+
+                </p>
+            </section>
+
+            <footer id="contact" class="footer">
+                <div id="contact" class="footer-main">
+                    <div class="footer-col">
+                        <h2>ECOVEL</h2>
+                        <p>Du lịch xanh – Travel local — Trải nghiệm global.</p>
+                        <p>Email: ecovel74@gmail.com</p>
+                        <p>Hotline: 0268.936.719</p>
+                    </div>
+
+                </div>
+
+                <div class="footer-bottom">
+                    <p>© 2026 ECOVEL. All Rights Reserved.</p>
+                </div>
+            </footer>
+
+        </div>
+
+        <div id="popup" class="popup">
+            <div class="popup-content">
+                <h2>🎉 Check-in thành công</h2>
+                <p id="popupText"></p>
+                <button onclick="closePopup()">Đóng</button>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <script src="script.js"></script>
+</body>
+
+</html>
