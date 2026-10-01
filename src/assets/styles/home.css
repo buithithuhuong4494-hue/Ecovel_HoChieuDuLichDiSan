@@ -2947,3 +2947,285 @@
     font-size: clamp(36px, 10vw, 46px);
   }
 }
+
+/* =========================================================
+   PREMIUM MOTION
+   ========================================================= */
+
+/* HERO */
+
+.home-hero {
+  background-size: 110%;
+  animation: heroPan 16s ease-in-out infinite alternate;
+}
+
+@keyframes heroPan {
+  from {
+    background-position: 48% center;
+  }
+
+  to {
+    background-position: 52% center;
+  }
+}
+
+.hero-text > * {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: heroFadeUp 0.8s ease forwards;
+}
+
+.hero-text > *:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.hero-text > *:nth-child(2) {
+  animation-delay: 0.25s;
+}
+
+.hero-text > *:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.hero-text > *:nth-child(4) {
+  animation-delay: 0.55s;
+}
+
+@keyframes heroFadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* FEATURE CARDS */
+
+.home-feature-card {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.home-feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 24px 55px rgba(53, 42, 31, 0.12);
+  border-color: #d6bd96;
+}
+
+.home-feature-card::after {
+  content: "";
+
+  position: absolute;
+  width: 130px;
+  height: 130px;
+
+  right: -60px;
+  bottom: -60px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(47, 107, 60, 0.12),
+      transparent 70%
+    );
+
+  border-radius: 50%;
+
+  transition: transform 0.4s ease;
+}
+
+.home-feature-card:hover::after {
+  transform: scale(1.6);
+}
+
+
+/* FEATURED JOURNEY */
+
+.featured-journey-card {
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.featured-journey-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 34px 75px rgba(53, 42, 31, 0.16);
+}
+
+.featured-journey-image {
+  overflow: hidden;
+}
+
+.featured-journey-image img {
+  transition: transform 0.8s ease;
+}
+
+.featured-journey-card:hover
+.featured-journey-image img {
+  transform: scale(1.055);
+}
+
+
+/* EXPERIENCE TIMELINE */
+
+.experience-step {
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.experience-step:hover {
+  transform: translateX(8px);
+}
+
+.experience-step-number {
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.experience-step:hover
+.experience-step-number {
+  color: var(--eco-green);
+  transform: scale(1.08);
+}
+
+.experience-icon {
+  transition:
+    transform 0.35s ease,
+    background 0.35s ease;
+}
+
+.experience-step:hover
+.experience-icon {
+  transform:
+    translateY(-4px)
+    rotate(-5deg);
+
+  background: #dcecdf;
+}
+
+
+/* STORY */
+
+.story-visual img {
+  transition:
+    transform 0.8s ease,
+    filter 0.8s ease;
+}
+
+.story-visual:hover img {
+  transform: scale(1.025);
+
+  filter:
+    saturate(1.08)
+    contrast(1.04);
+}
+
+.story-caption {
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.story-visual:hover
+.story-caption {
+  transform: translateY(-8px);
+
+  box-shadow:
+    0 18px 40px
+    rgba(53, 42, 31, 0.14);
+}
+
+
+/* BUTTONS */
+
+.hero-button,
+.hero-secondary-button,
+.featured-journey-button,
+.final-primary,
+.final-secondary,
+.top-register {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.hero-button:hover,
+.featured-journey-button:hover,
+.final-primary:hover,
+.top-register:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 12px 28px
+    rgba(47, 107, 60, 0.22);
+}
+
+.hero-secondary-button:hover,
+.final-secondary:hover {
+  transform: translateY(-3px);
+}
+
+
+/* CTA GLOW */
+
+.home-final-cta {
+  position: relative;
+  overflow: hidden;
+}
+
+.home-final-cta::before {
+  content: "";
+
+  position: absolute;
+
+  width: 420px;
+  height: 420px;
+
+  top: -220px;
+  right: -120px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.11),
+      transparent 70%
+    );
+
+  border-radius: 50%;
+
+  animation: ctaGlow 7s ease-in-out infinite alternate;
+}
+
+@keyframes ctaGlow {
+  from {
+    transform: translate(0, 0);
+  }
+
+  to {
+    transform: translate(-30px, 30px);
+  }
+}
+
+.final-cta-content {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
