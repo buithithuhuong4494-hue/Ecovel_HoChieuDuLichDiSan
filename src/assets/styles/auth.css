@@ -1,0 +1,312 @@
+.auth-page {
+  min-height: 100vh;
+
+  padding: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      rgba(28, 25, 21, 0.52),
+      rgba(28, 25, 21, 0.58)
+    ),
+    url("/images/Banner.jpg") center / cover no-repeat;
+}
+
+
+/* =========================
+   AUTH CARD
+========================= */
+
+.auth-container {
+  width: min(470px, 100%);
+  min-height: 690px;
+
+  padding: 38px;
+
+  display: flex;
+  flex-direction: column;
+
+  background: rgba(255, 255, 255, 0.97);
+
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 28px;
+
+  text-align: center;
+
+  box-shadow:
+    0 24px 60px
+    rgba(33, 27, 21, 0.22);
+
+  backdrop-filter: blur(12px);
+}
+
+
+/* =========================
+   BRAND
+========================= */
+
+.auth-container h1 {
+  margin: 10px 0 4px;
+
+  color: #4b3425;
+
+  font-family:
+    "Times New Roman",
+    Times,
+    serif;
+
+  font-size: 44px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.auth-container > p {
+  margin-bottom: 28px;
+
+  color: #9b7746;
+
+  font-size: 15px;
+  font-weight: 700;
+}
+
+
+/* =========================
+   TABS
+========================= */
+
+.auth-tabs {
+  margin-bottom: 28px;
+  padding: 5px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 6px;
+
+  background: #f4eee5;
+
+  border-radius: 999px;
+}
+
+.auth-tabs button {
+  padding: 12px 14px;
+
+  background: transparent;
+  color: #6e5a4c;
+
+  border: 2px solid transparent;
+  border-radius: 999px;
+
+  font-size: 16px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.auth-tabs button:hover {
+  color: #2f6b3c;
+}
+
+.auth-tabs button.active {
+  background: #ffffff;
+  color: #2f6b3c;
+
+  border-color: #d9c7aa;
+
+  box-shadow:
+    0 5px 15px
+    rgba(53, 42, 31, 0.08);
+}
+
+
+/* =========================
+   FORM BOX
+========================= */
+
+.auth-box {
+  min-height: 330px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-box h2 {
+  margin-bottom: 22px;
+
+  color: #30261f;
+
+  font-family:
+    "Times New Roman",
+    Times,
+    serif;
+
+  font-size: 30px;
+  font-weight: 700;
+
+  line-height: 1.2;
+}
+
+.auth-box input {
+  width: 100%;
+
+  padding: 14px 16px;
+  margin-bottom: 14px;
+
+  background: #ffffff;
+
+  border: 1px solid #e8ded2;
+  border-radius: 12px;
+
+  color: #30261f;
+
+  font-size: 16px;
+
+  outline: none;
+
+  transition: 0.2s ease;
+}
+
+.auth-box input::placeholder {
+  color: #9b9188;
+}
+
+.auth-box input:hover {
+  border-color: #d7c6b3;
+}
+
+.auth-box input:focus {
+  border-color: #c89b5a;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(200, 155, 90, 0.13);
+}
+
+
+/* =========================
+   SUBMIT BUTTON
+========================= */
+
+.auth-box button {
+  width: 100%;
+
+  padding: 14px 18px;
+  margin-top: 4px;
+
+  background: #2f6b3c;
+  color: #ffffff;
+
+  border: none;
+  border-radius: 999px;
+
+  font-size: 16px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.auth-box button:hover {
+  background: #234f2d;
+
+  transform: translateY(-1px);
+}
+
+.auth-box button:disabled {
+  opacity: 0.65;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+.auth-message {
+  margin-top: 14px;
+
+  color: #5b3a1d;
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+
+/* =========================
+   BACK HOME
+========================= */
+
+.back-home {
+  display: inline-flex;
+
+  margin: auto auto 0;
+
+  padding-top: 18px;
+
+  color: #4b3425;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  text-decoration: none;
+
+  transition: 0.2s ease;
+}
+
+.back-home:hover {
+  color: #2f6b3c;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 520px) {
+  .auth-page {
+    padding: 16px;
+  }
+
+  .auth-container {
+    min-height: 640px;
+
+    padding: 28px 20px;
+
+    border-radius: 22px;
+  }
+
+  .auth-container h1 {
+    font-size: 38px;
+  }
+
+  .auth-container > p {
+    font-size: 14px;
+  }
+
+  .auth-tabs button {
+    padding: 11px 10px;
+
+    font-size: 15px;
+  }
+
+  .auth-box {
+    min-height: 315px;
+  }
+
+  .auth-box h2 {
+    font-size: 27px;
+  }
+
+  .auth-box input {
+    padding: 13px 14px;
+  }
+}
