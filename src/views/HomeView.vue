@@ -14,16 +14,13 @@ import FeaturedJourney from '../components/home/FeaturedJourney.vue'
     <AppHeader />
 
     <main class="page-content">
-      <!-- Hero -->
       <HeroSection />
 
-      <!-- Khám phá ECOVEL -->
       <HomeFeatures />
 
-      <!-- Hành trình nổi bật -->
       <FeaturedJourney />
 
-      <!-- Cách hoạt động -->
+      <!-- Trải nghiệm ECOVEL -->
       <section class="experience-section">
         <div class="experience-container">
           <div class="experience-heading">
@@ -38,9 +35,9 @@ import FeaturedJourney from '../components/home/FeaturedJourney.vue'
             </h2>
 
             <p>
-              Khám phá di sản theo cách đơn giản:
-              chọn hành trình, check-in tại điểm đến
-              và lưu lại thành tựu của riêng bạn.
+              Chọn hành trình, check-in tại điểm đến
+              và lưu lại từng dấu ấn trên hành trình
+              khám phá di sản của bạn.
             </p>
           </div>
 
@@ -52,7 +49,7 @@ import FeaturedJourney from '../components/home/FeaturedJourney.vue'
 
               <div class="experience-step-content">
                 <span class="experience-icon">
-                  🗺️
+                  🧭
                 </span>
 
                 <h3>
@@ -60,8 +57,8 @@ import FeaturedJourney from '../components/home/FeaturedJourney.vue'
                 </h3>
 
                 <p>
-                  Chọn chủ đề bạn yêu thích và bắt đầu
-                  khám phá những địa điểm di sản nổi bật.
+                  Lựa chọn chủ đề phù hợp và khám phá
+                  những điểm đến văn hóa, di sản nổi bật.
                 </p>
 
                 <RouterLink
@@ -90,8 +87,8 @@ import FeaturedJourney from '../components/home/FeaturedJourney.vue'
                 </h3>
 
                 <p>
-                  Xác nhận vị trí thực tế và lưu lại
-                  từng nơi bạn đã đặt chân đến.
+                  Xác nhận vị trí tại địa điểm và lưu lại
+                  những nơi bạn đã đặt chân đến.
                 </p>
 
                 <RouterLink
@@ -116,12 +113,12 @@ import FeaturedJourney from '../components/home/FeaturedJourney.vue'
                 </span>
 
                 <h3>
-                  Mở khóa thành tựu
+                  Ghi dấu thành tựu
                 </h3>
 
                 <p>
-                  Hoàn thành hành trình, nhận huy hiệu
-                  và theo dõi dấu ấn khám phá của bạn.
+                  Hoàn thành cột mốc, mở khóa huy hiệu
+                  và theo dõi tiến trình khám phá của bạn.
                 </p>
 
                 <RouterLink
@@ -167,15 +164,15 @@ import FeaturedJourney from '../components/home/FeaturedJourney.vue'
             </h2>
 
             <p class="story-lead">
-              ECOVEL kết nối hành trình du lịch với
-              những giá trị văn hóa và di sản Việt Nam.
+              ECOVEL kết nối hành trình du lịch
+              với những giá trị văn hóa và di sản Việt Nam.
             </p>
 
             <p>
-              Thay vì chỉ ghé thăm một địa điểm,
-              bạn có thể lưu lại nơi mình đã khám phá,
-              theo dõi tiến trình và từng bước xây dựng
-              hộ chiếu du lịch của riêng mình.
+              Bạn không chỉ ghé thăm một địa điểm,
+              mà còn có thể lưu lại những nơi đã khám phá,
+              theo dõi tiến trình và xây dựng hộ chiếu
+              du lịch của riêng mình.
             </p>
 
             <p>
@@ -188,7 +185,7 @@ import FeaturedJourney from '../components/home/FeaturedJourney.vue'
               to="/about"
               class="story-link"
             >
-              Tìm hiểu câu chuyện ECOVEL
+              Tìm hiểu về ECOVEL
               <span>→</span>
             </RouterLink>
           </div>
@@ -209,8 +206,8 @@ import FeaturedJourney from '../components/home/FeaturedJourney.vue'
           </h2>
 
           <p>
-            Khám phá một hành trình mới,
-            check-in những địa điểm thú vị
+            Chọn một hành trình mới,
+            khám phá những điểm đến thú vị
             và tạo nên dấu ấn ECOVEL của riêng bạn.
           </p>
 
@@ -219,7 +216,7 @@ import FeaturedJourney from '../components/home/FeaturedJourney.vue'
               to="/journeys"
               class="final-primary"
             >
-              Khám phá hành trình
+              Bắt đầu khám phá
             </RouterLink>
 
             <RouterLink

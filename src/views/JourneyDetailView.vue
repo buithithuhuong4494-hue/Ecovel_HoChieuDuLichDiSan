@@ -1,5 +1,10 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import {
+  computed,
+  onMounted,
+  ref
+} from 'vue'
+
 import { useRoute } from 'vue-router'
 
 import AppHeader from '../components/layout/AppHeader.vue'
@@ -20,7 +25,10 @@ const errorMessage = ref('')
 onMounted(async () => {
   try {
     // Lấy thông tin hành trình
-    const { data: journeyData, error: journeyError } = await supabase
+    const {
+      data: journeyData,
+      error: journeyError
+    } = await supabase
       .from('journeys')
       .select(`
         id,
@@ -59,9 +67,12 @@ onMounted(async () => {
       throw userError
     }
 
-    // Nếu đã đăng nhập thì lấy các location đã check-in
+    // Nếu đã đăng nhập thì lấy địa điểm đã check-in
     if (user) {
-      const { data: checkIns, error: checkInError } = await supabase
+      const {
+        data: checkIns,
+        error: checkInError
+      } = await supabase
         .from('check_ins')
         .select('location_id')
         .eq('user_id', user.id)
@@ -72,7 +83,9 @@ onMounted(async () => {
       }
 
       checkedLocationIds.value =
-        checkIns.map(item => item.location_id)
+        checkIns.map(
+          item => item.location_id
+        )
     }
   } catch (error) {
     console.error(
@@ -126,6 +139,43 @@ const progressPercent = computed(() => {
   )
 })
 
+const nextStop = computed(() => {
+  return sortedStops.value.find(
+    stop =>
+      !checkedLocationIds.value.includes(
+        stop.locations?.id
+      )
+  )
+})
+
+const progressTitle = computed(() => {
+  if (progressPercent.value === 100) {
+    return 'Bạn đã hoàn thành hành trình 🎉'
+  }
+
+  if (progressPercent.value >= 50) {
+    return 'Bạn đã đi được hơn nửa hành trình'
+  }
+
+  if (progressPercent.value > 0) {
+    return 'Hành trình của bạn đã bắt đầu'
+  }
+
+  return 'Sẵn sàng cho điểm đến đầu tiên?'
+})
+
+const progressDescription = computed(() => {
+  if (progressPercent.value === 100) {
+    return 'Tất cả điểm đến đã được check-in. Hành trình này giờ đã trở thành một phần trong hộ chiếu ECOVEL của bạn.'
+  }
+
+  if (nextStop.value?.locations?.name) {
+    return `Điểm dừng tiếp theo của bạn là ${nextStop.value.locations.name}.`
+  }
+
+  return 'Check-in từng điểm đến để ghi lại dấu ấn trên hành trình của bạn.'
+})
+
 function isCheckedIn(locationId) {
   return checkedLocationIds.value.includes(
     locationId
@@ -138,19 +188,27 @@ function isCheckedIn(locationId) {
     <AppHeader />
 
     <main class="page-content">
-      <p
+      <div
         v-if="loading"
-        class="section"
+        class="journey-detail-state"
       >
-        Đang tải hành trình...
-      </p>
+        <span>🧭</span>
 
-      <p
+        <p>
+          Đang chuẩn bị hành trình của bạn...
+        </p>
+      </div>
+
+      <div
         v-else-if="errorMessage"
-        class="section"
+        class="journey-detail-state"
       >
-        {{ errorMessage }}
-      </p>
+        <span>!</span>
+
+        <p>
+          {{ errorMessage }}
+        </p>
+      </div>
 
       <template v-else-if="journey">
         <!-- HERO -->
@@ -163,14 +221,22 @@ function isCheckedIn(locationId) {
             {{ journey.name }}
           </h1>
 
-          <p>
-            {{ journey.description }}
+          <p class="journey-detail-intro">
+            {{
+              journey.description ||
+              'Khám phá từng điểm đến và lưu lại dấu ấn trên hành trình di sản của riêng bạn.'
+            }}
           </p>
 
-          <strong>
-            {{ totalLocations }}
-            điểm đến
-          </strong>
+          <div class="journey-detail-meta">
+            <span>
+              📍 {{ totalLocations }} điểm đến
+            </span>
+
+            <span>
+              ✓ {{ completedLocations }} đã khám phá
+            </span>
+          </div>
 
           <!-- PROGRESS -->
           <div class="journey-progress">
@@ -180,9 +246,7 @@ function isCheckedIn(locationId) {
               </span>
 
               <strong>
-                {{ completedLocations }}
-                /
-                {{ totalLocations }}
+                {{ progressPercent }}%
               </strong>
             </div>
 
@@ -195,9 +259,34 @@ function isCheckedIn(locationId) {
               ></div>
             </div>
 
-            <p>
-              {{ progressPercent }}% hoàn thành
-            </p>
+            <div class="journey-progress-message">
+              <h3>
+                {{ progressTitle }}
+              </h3>
+
+              <p>
+                {{ progressDescription }}
+              </p>
+            </div>
+
+            <RouterLink
+              v-if="
+                progressPercent < 100 &&
+                nextStop?.locations?.id
+              "
+              :to="`/checkin?location=${nextStop.locations.id}`"
+              class="journey-next-button"
+            >
+              Tiếp tục hành trình →
+            </RouterLink>
+
+            <RouterLink
+              v-else-if="progressPercent === 100"
+              to="/achievements"
+              class="journey-next-button"
+            >
+              Xem thành tựu của bạn →
+            </RouterLink>
           </div>
         </section>
 
@@ -205,15 +294,18 @@ function isCheckedIn(locationId) {
         <section class="journey-detail-locations">
           <div class="home-section-heading">
             <span class="home-tag">
-              ĐIỂM ĐẾN
+              CÁC ĐIỂM DỪNG
             </span>
 
             <h2>
-              Các địa điểm trong hành trình
+              Mỗi điểm đến,
+              một dấu ấn riêng
             </h2>
 
             <p>
-              Khám phá lần lượt các điểm đến và hoàn thành hành trình.
+              Khám phá lần lượt từng địa điểm,
+              check-in khi bạn có mặt và hoàn thành
+              hành trình ECOVEL của riêng mình.
             </p>
           </div>
 
@@ -222,28 +314,66 @@ function isCheckedIn(locationId) {
               v-for="stop in sortedStops"
               :key="stop.id"
               class="journey-location-card"
+              :class="{
+                completed:
+                  isCheckedIn(
+                    stop.locations?.id
+                  )
+              }"
             >
               <div class="journey-stop-number">
-                {{ String(stop.stop_order).padStart(2, '0') }}
+                {{
+                  String(
+                    stop.stop_order
+                  ).padStart(2, '0')
+                }}
               </div>
 
-              <img
-                v-if="stop.locations?.image_url"
-                :src="stop.locations.image_url"
-                :alt="stop.locations.name"
-              />
+              <div class="journey-location-image">
+                <img
+                  v-if="stop.locations?.image_url"
+                  :src="stop.locations.image_url"
+                  :alt="stop.locations.name"
+                />
+
+                <div
+                  v-if="
+                    isCheckedIn(
+                      stop.locations?.id
+                    )
+                  "
+                  class="journey-image-completed"
+                >
+                  ✓
+                </div>
+              </div>
 
               <div class="journey-location-info">
                 <div class="journey-location-title">
-                  <h3>
-                    {{ stop.locations?.name }}
-                  </h3>
+                  <div>
+                    <span class="journey-stop-label">
+                      ĐIỂM DỪNG
+                      {{
+                        String(
+                          stop.stop_order
+                        ).padStart(2, '0')
+                      }}
+                    </span>
+
+                    <h3>
+                      {{ stop.locations?.name }}
+                    </h3>
+                  </div>
 
                   <span
-                    v-if="isCheckedIn(stop.locations?.id)"
+                    v-if="
+                      isCheckedIn(
+                        stop.locations?.id
+                      )
+                    "
                     class="status-badge checked"
                   >
-                    ✓ Đã check-in
+                    ✓ Đã khám phá
                   </span>
 
                   <span
@@ -254,31 +384,86 @@ function isCheckedIn(locationId) {
                   </span>
                 </div>
 
-                <p>
-                  {{ stop.locations?.description }}
+                <p class="journey-location-description">
+                  {{
+                    stop.locations?.description ||
+                    'Một điểm đến đang chờ bạn khám phá trên hành trình này.'
+                  }}
                 </p>
 
-                <p>
-                  <strong>Địa chỉ:</strong>
+                <p class="journey-location-address">
+                  <span>📍</span>
+
                   {{ stop.locations?.address }}
                 </p>
 
-                <RouterLink
-                  v-if="!isCheckedIn(stop.locations?.id)"
-                  :to="`/checkin?location=${stop.locations?.id}`"
-                  class="home-primary-btn"
-                >
-                  Check-in địa điểm
-                </RouterLink>
+                <div class="journey-location-actions">
+                  <RouterLink
+                    v-if="
+                      !isCheckedIn(
+                        stop.locations?.id
+                      )
+                    "
+                    :to="`/checkin?location=${stop.locations?.id}`"
+                    class="home-primary-btn"
+                  >
+                    Check-in tại đây
+                  </RouterLink>
 
-                <span
-                  v-else
-                  class="completed-text"
-                >
-                  Địa điểm đã hoàn thành
-                </span>
+                  <span
+                    v-else
+                    class="completed-text"
+                  >
+                    ✓ Dấu ấn đã được lưu
+                  </span>
+
+                  <RouterLink
+                    to="/map"
+                    class="journey-map-link"
+                  >
+                    Xem trên bản đồ →
+                  </RouterLink>
+                </div>
               </div>
             </article>
+          </div>
+
+          <!-- FINAL MESSAGE -->
+          <div class="journey-detail-footer">
+            <span class="home-tag">
+              DẤU ẤN HÀNH TRÌNH
+            </span>
+
+            <h2>
+              {{
+                progressPercent === 100
+                  ? 'Một hành trình đã trở thành kỷ niệm'
+                  : 'Còn những điểm đến đang chờ bạn'
+              }}
+            </h2>
+
+            <p>
+              {{
+                progressPercent === 100
+                  ? 'Bạn đã hoàn thành tất cả điểm đến trong hành trình này. Hãy tiếp tục khám phá những hành trình mới cùng ECOVEL.'
+                  : 'Mỗi lần check-in là thêm một dấu ấn vào hộ chiếu du lịch ECOVEL của bạn.'
+              }}
+            </p>
+
+            <RouterLink
+              :to="
+                progressPercent === 100
+                  ? '/journeys'
+                  : '/map'
+              "
+              class="home-primary-btn"
+            >
+              {{
+                progressPercent === 100
+                  ? 'Khám phá hành trình khác'
+                  : 'Khám phá bản đồ'
+              }}
+            </RouterLink>
           </div>
         </section>
       </template>

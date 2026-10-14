@@ -6,12 +6,14 @@
       </span>
 
       <h1>
-        Khám phá di sản theo cách của bạn
+        Chạm vào di sản,
+        lưu lại hành trình
       </h1>
 
       <p>
-        Check-in địa điểm, hoàn thành hành trình
-        và lưu lại dấu ấn khám phá cùng ECOVEL.
+        Khám phá những điểm đến giàu giá trị văn hóa,
+        check-in từng địa danh và từng bước tạo nên
+        hộ chiếu du lịch của riêng bạn cùng ECOVEL.
       </p>
 
       <div class="hero-actions">
@@ -19,7 +21,7 @@
           to="/journeys"
           class="hero-button"
         >
-          Khám phá hành trình
+          Bắt đầu khám phá
         </RouterLink>
 
         <RouterLink

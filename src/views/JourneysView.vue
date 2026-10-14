@@ -4,7 +4,9 @@ import { onMounted, ref } from 'vue'
 import AppHeader from '../components/layout/AppHeader.vue'
 import AppFooter from '../components/layout/AppFooter.vue'
 
-import { getJourneys } from '../features/journeys/services/journeyService.js'
+import {
+  getJourneys
+} from '../features/journeys/services/journeyService.js'
 
 import '../assets/styles/home.css'
 
@@ -35,37 +37,51 @@ onMounted(async () => {
 
     <main class="page-content">
       <section class="journeys-page">
-        <div class="home-section-heading">
+        <div class="journeys-hero">
           <span class="home-tag">
-            HÀNH TRÌNH
+            HÀNH TRÌNH KHÁM PHÁ
           </span>
 
           <h1>
-            Hành trình khám phá
+            Chọn một hành trình,
+            <br />
+            bắt đầu câu chuyện của bạn
           </h1>
 
           <p>
-            Lựa chọn hành trình phù hợp và khám phá
-            từng địa điểm theo chủ đề.
+            Mỗi hành trình kết nối những địa điểm
+            văn hóa và di sản theo một chủ đề riêng.
           </p>
         </div>
 
-        <p
+        <div
           v-if="loading"
-          class="section"
+          class="journey-state"
         >
-          Đang tải hành trình...
-        </p>
+          <span class="journey-state-icon">
+            🧭
+          </span>
 
-        <p
-          v-else-if="errorMessage"
-          class="section"
-        >
-          {{ errorMessage }}
-        </p>
+          <p>
+            Đang tải hành trình...
+          </p>
+        </div>
 
         <div
-          v-else
+          v-else-if="errorMessage"
+          class="journey-state"
+        >
+          <span class="journey-state-icon">
+            !
+          </span>
+
+          <p>
+            {{ errorMessage }}
+          </p>
+        </div>
+
+        <div
+          v-else-if="journeys.length"
           class="journeys-grid"
         >
           <RouterLink
@@ -76,13 +92,19 @@ onMounted(async () => {
           >
             <div class="journey-list-card-top">
               <span class="journey-badge">
-                Hành trình
+                HÀNH TRÌNH
               </span>
 
               <span class="journey-count">
-                {{ journey.journey_locations?.length ?? 0 }}
+                {{
+                  journey.journey_locations?.length ?? 0
+                }}
                 điểm đến
               </span>
+            </div>
+
+            <div class="journey-card-number">
+              0{{ journey.id }}
             </div>
 
             <h2>
@@ -90,23 +112,60 @@ onMounted(async () => {
             </h2>
 
             <p>
-              {{ journey.description }}
+              {{
+                journey.description ||
+                'Khám phá hành trình di sản cùng ECOVEL.'
+              }}
             </p>
 
-            <div class="journey-list-preview">
+            <div
+              v-if="journey.journey_locations?.length"
+              class="journey-list-preview"
+            >
               <span
-                v-for="stop in [...(journey.journey_locations ?? [])]
-                  .sort((a, b) => a.stop_order - b.stop_order)"
+                v-for="stop in [...journey.journey_locations]
+                  .sort(
+                    (a, b) =>
+                      a.stop_order - b.stop_order
+                  )
+                  .slice(0, 4)"
                 :key="stop.id"
               >
-                ✓ {{ stop.locations?.name }}
+                <span class="journey-preview-dot">
+                  •
+                </span>
+
+                {{ stop.locations?.name }}
               </span>
             </div>
 
-            <span class="journey-list-link">
-              Xem hành trình →
-            </span>
+            <div class="journey-card-footer">
+              <span class="journey-list-link">
+                Khám phá hành trình
+              </span>
+
+              <span class="journey-arrow">
+                →
+              </span>
+            </div>
           </RouterLink>
+        </div>
+
+        <div
+          v-else
+          class="journey-state"
+        >
+          <span class="journey-state-icon">
+            🗺️
+          </span>
+
+          <h2>
+            Chưa có hành trình
+          </h2>
+
+          <p>
+            Các hành trình mới sẽ sớm được cập nhật.
+          </p>
         </div>
       </section>
     </main>

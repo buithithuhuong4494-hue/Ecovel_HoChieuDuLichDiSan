@@ -10,7 +10,8 @@
       </h2>
 
       <p>
-        Khám phá di sản, check-in địa điểm và lưu lại hành trình của riêng bạn.
+        Chọn hành trình, khám phá địa điểm,
+        check-in và lưu lại từng dấu ấn cùng ECOVEL.
       </p>
     </div>
 
@@ -19,14 +20,21 @@
         to="/journeys"
         class="home-feature-card"
       >
-        <span class="feature-number">01</span>
+        <span class="feature-number">
+          01
+        </span>
+
+        <span class="feature-icon">
+          🧭
+        </span>
 
         <h3>
-          Hành trình khám phá
+          Hành trình
         </h3>
 
         <p>
-          Khám phá các hành trình di sản được thiết kế theo từng chủ đề.
+          Khám phá các hành trình di sản
+          được thiết kế theo từng chủ đề.
         </p>
 
         <span class="feature-link">
@@ -38,18 +46,25 @@
         to="/locations"
         class="home-feature-card"
       >
-        <span class="feature-number">02</span>
+        <span class="feature-number">
+          02
+        </span>
+
+        <span class="feature-icon">
+          📍
+        </span>
 
         <h3>
           Địa điểm
         </h3>
 
         <p>
-          Khám phá những địa điểm văn hóa và di sản nổi bật.
+          Tìm hiểu những điểm đến văn hóa
+          và di sản nổi bật.
         </p>
 
         <span class="feature-link">
-          Xem địa điểm →
+          Khám phá địa điểm →
         </span>
       </RouterLink>
 
@@ -57,14 +72,21 @@
         to="/checkin"
         class="home-feature-card"
       >
-        <span class="feature-number">03</span>
+        <span class="feature-number">
+          03
+        </span>
+
+        <span class="feature-icon">
+          ✓
+        </span>
 
         <h3>
           Check-in
         </h3>
 
         <p>
-          Xác nhận vị trí và lưu lại những địa điểm bạn đã khám phá.
+          Xác nhận vị trí và lưu lại
+          những nơi bạn đã đặt chân đến.
         </p>
 
         <span class="feature-link">
@@ -76,14 +98,21 @@
         to="/achievements"
         class="home-feature-card"
       >
-        <span class="feature-number">04</span>
+        <span class="feature-number">
+          04
+        </span>
+
+        <span class="feature-icon">
+          🏅
+        </span>
 
         <h3>
           Thành tựu
         </h3>
 
         <p>
-          Mở khóa huy hiệu khi hoàn thành các cột mốc khám phá.
+          Hoàn thành cột mốc và mở khóa
+          những huy hiệu trên hành trình.
         </p>
 
         <span class="feature-link">
