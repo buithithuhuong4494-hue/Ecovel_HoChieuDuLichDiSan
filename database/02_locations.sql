@@ -1,3 +1,7 @@
+-- =========================================
+-- ECOVEL - LOCATIONS
+-- =========================================
+
 create table if not exists public.locations (
     id bigint generated always as identity primary key,
 
@@ -20,11 +24,30 @@ create table if not exists public.locations (
     created_at timestamptz not null default now()
 );
 
+
+-- =========================================
+-- ROW LEVEL SECURITY
+-- =========================================
+
+alter table public.locations
+enable row level security;
+
+
+drop policy if exists
+"Locations are public"
+on public.locations;
+
+
 create policy "Locations are public"
 on public.locations
 for select
 to anon, authenticated
 using (true);
+
+
+-- =========================================
+-- SAMPLE DATA
+-- =========================================
 
 insert into public.locations
 (
@@ -67,4 +90,14 @@ values
     106.6954,
     100,
     '/images/Dinh_Doc_Lap.jpg'
-);
+)
+on conflict (slug)
+do update set
+    name = excluded.name,
+    description = excluded.description,
+    address = excluded.address,
+    latitude = excluded.latitude,
+    longitude = excluded.longitude,
+    checkin_radius = excluded.checkin_radius,
+    image_url = excluded.image_url,
+    is_active = true;

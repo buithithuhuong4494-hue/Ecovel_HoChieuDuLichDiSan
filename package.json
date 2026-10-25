@@ -2,20 +2,14 @@
   "name": "ecovel",
   "version": "1.0.0",
   "description": "ECOVEL - Ho chieu du lich di san",
-  "main": "server.js",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
-    "server": "node server.js"
+    "preview": "vite preview"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "module",
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",
-    "express": "^5.2.1",
     "leaflet": "^1.9.4",
     "vue": "^3.5.22",
     "vue-router": "^4.5.1"

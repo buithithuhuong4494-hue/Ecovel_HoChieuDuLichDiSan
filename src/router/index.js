@@ -1,4 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {
+  createRouter,
+  createWebHistory
+} from 'vue-router'
+
+import { supabase } from '../lib/supabase.js'
 
 import HomeView from '../views/HomeView.vue'
 import JourneysView from '../views/JourneysView.vue'
@@ -11,62 +16,164 @@ import AboutView from '../views/AboutView.vue'
 import AuthView from '../views/AuthView.vue'
 import MapView from '../views/MapView.vue'
 
+
 const routes = [
   {
     path: '/',
     name: 'home',
     component: HomeView
   },
+
   {
     path: '/journeys',
     name: 'journeys',
     component: JourneysView
   },
+
   {
     path: '/journeys/:id',
     name: 'journey-detail',
     component: JourneyDetailView
   },
+
   {
     path: '/locations',
     name: 'locations',
     component: LocationsView
   },
+
   {
-    path: '/checkin',
-    name: 'checkin',
-    component: CheckInView
+    path: '/map',
+    name: 'map',
+    component: MapView
   },
-  {
-    path: '/profile',
-    name: 'profile',
-    component: ProfileView
-  },
-  {
-    path: '/achievements',
-    name: 'achievements',
-    component: AchievementsView
-  },
+
   {
     path: '/about',
     name: 'about',
     component: AboutView
   },
+
+  {
+    path: '/checkin',
+    name: 'checkin',
+    component: CheckInView,
+
+    meta: {
+      requiresAuth: true
+    }
+  },
+
+  {
+    path: '/profile',
+    name: 'profile',
+    component: ProfileView,
+
+    meta: {
+      requiresAuth: true
+    }
+  },
+
+  {
+    path: '/achievements',
+    name: 'achievements',
+    component: AchievementsView,
+
+    meta: {
+      requiresAuth: true
+    }
+  },
+
   {
     path: '/auth',
     name: 'auth',
     component: AuthView
-  },
-  {
-    path: '/map',
-    name: 'map',
-    component: MapView
   }
 ]
 
+
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
+
+  scrollBehavior() {
+    return {
+      top: 0
+    }
+  }
 })
+
+
+/* =========================================
+   AUTH GUARD
+   ========================================= */
+
+router.beforeEach(async (to) => {
+  try {
+    const {
+      data: { user },
+      error
+    } = await supabase.auth.getUser()
+
+    if (error) {
+      console.error(
+        'Lỗi kiểm tra đăng nhập:',
+        error
+      )
+    }
+
+    /*
+      Trang yêu cầu đăng nhập
+      nhưng user chưa đăng nhập
+    */
+    if (
+      to.meta.requiresAuth &&
+      !user
+    ) {
+      return {
+        name: 'auth',
+
+        query: {
+          redirect: to.fullPath
+        }
+      }
+    }
+
+    /*
+      Đã đăng nhập rồi
+      nhưng vẫn vào /auth
+      thì chuyển về trang chủ
+    */
+    if (
+      to.name === 'auth' &&
+      user
+    ) {
+      return {
+        name: 'home'
+      }
+    }
+
+    return true
+  } catch (error) {
+    console.error(
+      'Lỗi router guard:',
+      error
+    )
+
+    /*
+      Nếu route cần đăng nhập
+      nhưng không kiểm tra được user
+      thì chuyển về trang đăng nhập
+    */
+    if (to.meta.requiresAuth) {
+      return {
+        name: 'auth'
+      }
+    }
+
+    return true
+  }
+})
+
 
 export default router
