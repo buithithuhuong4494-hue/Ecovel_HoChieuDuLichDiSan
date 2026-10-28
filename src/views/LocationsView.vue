@@ -65,20 +65,14 @@ const totalLocations = computed(() => {
               📍 {{ totalLocations }} địa điểm
             </span>
 
-            <RouterLink
-              to="/map"
-              class="locations-map-link"
-            >
+            <RouterLink to="/map" class="locations-map-link">
               Xem tất cả trên bản đồ →
             </RouterLink>
           </div>
         </div>
 
         <!-- LOADING -->
-        <div
-          v-if="loading"
-          class="locations-state"
-        >
+        <div v-if="loading" class="locations-state">
           <span class="locations-state-icon">
             📍
           </span>
@@ -89,10 +83,7 @@ const totalLocations = computed(() => {
         </div>
 
         <!-- ERROR -->
-        <div
-          v-else-if="errorMessage"
-          class="locations-state"
-        >
+        <div v-else-if="errorMessage" class="locations-state">
           <span class="locations-state-icon">
             !
           </span>
@@ -103,22 +94,11 @@ const totalLocations = computed(() => {
         </div>
 
         <!-- LIST -->
-        <div
-          v-else-if="locations.length"
-          class="locations-grid"
-        >
-          <article
-            v-for="(location, index) in locations"
-            :key="location.id"
-            class="location-card"
-          >
+        <div v-else-if="locations.length" class="locations-grid">
+          <article v-for="(location, index) in locations" :key="location.id" class="location-card">
             <div class="location-card-image-wrap">
-              <img
-                v-if="location.image_url"
-                :src="location.image_url"
-                :alt="location.name"
-                class="location-card-image"
-              />
+              <img v-if="location.image_url" :src="location.image_url" :alt="location.name"
+                class="location-card-image" />
 
               <div class="location-card-number">
                 {{
@@ -154,18 +134,12 @@ const totalLocations = computed(() => {
               </div>
 
               <div class="location-card-actions">
-                <RouterLink
-                  :to="`/checkin?location=${location.id}`"
-                  class="location-card-button"
-                >
-                  Check-in tại đây
+                <RouterLink :to="`/locations/${location.id}`" class="location-card-button">
+                  Khám phá địa điểm
                 </RouterLink>
 
-                <RouterLink
-                  to="/map"
-                  class="location-secondary-link"
-                >
-                  Xem trên bản đồ →
+                <RouterLink :to="`/checkin?location=${location.id}`" class="location-secondary-link">
+                  Check-in →
                 </RouterLink>
               </div>
             </div>
@@ -173,10 +147,7 @@ const totalLocations = computed(() => {
         </div>
 
         <!-- EMPTY -->
-        <div
-          v-else
-          class="locations-state"
-        >
+        <div v-else class="locations-state">
           <span class="locations-state-icon">
             🗺️
           </span>
@@ -191,10 +162,7 @@ const totalLocations = computed(() => {
         </div>
 
         <!-- BOTTOM CTA -->
-        <div
-          v-if="!loading && locations.length"
-          class="locations-bottom-cta"
-        >
+        <div v-if="!loading && locations.length" class="locations-bottom-cta">
           <span class="home-tag">
             BẢN ĐỒ ECOVEL
           </span>
@@ -210,10 +178,7 @@ const totalLocations = computed(() => {
             cho hành trình của bạn.
           </p>
 
-          <RouterLink
-            to="/map"
-            class="home-primary-btn"
-          >
+          <RouterLink to="/map" class="home-primary-btn">
             Khám phá bản đồ
           </RouterLink>
         </div>

@@ -1,11 +1,17 @@
 import { supabase } from '../../../lib/supabase.js'
 
+
 export async function getBadges() {
-  const { data, error } = await supabase
+  const {
+    data,
+    error
+  } = await supabase
     .from('badges')
     .select('*')
     .eq('is_active', true)
-    .order('id', { ascending: true })
+    .order('id', {
+      ascending: true
+    })
 
   if (error) {
     throw error
@@ -13,6 +19,7 @@ export async function getBadges() {
 
   return data
 }
+
 
 export async function getMyBadges() {
   const {
@@ -28,11 +35,16 @@ export async function getMyBadges() {
     return []
   }
 
-  const { data, error } = await supabase
+
+  const {
+    data,
+    error
+  } = await supabase
     .from('user_badges')
     .select(`
       id,
       earned_at,
+
       badges (
         id,
         name,
@@ -43,10 +55,17 @@ export async function getMyBadges() {
         journey_id
       )
     `)
-    .eq('user_id', user.id)
-    .order('earned_at', {
-      ascending: false
-    })
+    .eq(
+      'user_id',
+      user.id
+    )
+    .order(
+      'earned_at',
+      {
+        ascending: false
+      }
+    )
+
 
   if (error) {
     throw error
@@ -55,34 +74,78 @@ export async function getMyBadges() {
   return data
 }
 
-async function awardBadge(userId, badgeId) {
+
+/* =========================================
+   AWARD BADGE
+   ========================================= */
+
+async function awardBadge(
+  userId,
+  badgeId
+) {
   const {
     data: existingBadge,
     error: existingError
   } = await supabase
     .from('user_badges')
     .select('id')
-    .eq('user_id', userId)
-    .eq('badge_id', badgeId)
+    .eq(
+      'user_id',
+      userId
+    )
+    .eq(
+      'badge_id',
+      badgeId
+    )
     .maybeSingle()
+
 
   if (existingError) {
     throw existingError
   }
 
-  // Đã có huy hiệu rồi thì không insert lại
+
+  /*
+    Đã có huy hiệu rồi
+    thì không insert lại.
+  */
   if (existingBadge) {
     return null
   }
 
-  const { data, error } = await supabase
+
+  /*
+    Insert huy hiệu mới.
+
+    Lấy luôn thông tin badge để
+    popup có thể hiện tên,
+    mô tả và loại huy hiệu.
+  */
+  const {
+    data,
+    error
+  } = await supabase
     .from('user_badges')
     .insert({
       user_id: userId,
       badge_id: badgeId
     })
-    .select()
+    .select(`
+      id,
+      earned_at,
+
+      badges (
+        id,
+        name,
+        description,
+        icon_url,
+        badge_type,
+        requirement_value,
+        journey_id
+      )
+    `)
     .single()
+
 
   if (error) {
     throw error
@@ -90,6 +153,11 @@ async function awardBadge(userId, badgeId) {
 
   return data
 }
+
+
+/* =========================================
+   CHECK AND AWARD BADGES
+   ========================================= */
 
 export async function checkAndAwardBadges() {
   const {
@@ -97,82 +165,150 @@ export async function checkAndAwardBadges() {
     error: userError
   } = await supabase.auth.getUser()
 
+
   if (userError) {
     throw userError
   }
+
 
   if (!user) {
     return []
   }
 
-  const badges = await getBadges()
+
+  const badges =
+    await getBadges()
+
+
+  /* =========================================
+     CHECK-IN COUNT
+     ========================================= */
 
   const {
     count: checkInCount,
     error: checkInError
   } = await supabase
     .from('check_ins')
-    .select('*', {
-      count: 'exact',
-      head: true
-    })
-    .eq('user_id', user.id)
-    .eq('status', 'verified')
+    .select(
+      '*',
+      {
+        count: 'exact',
+        head: true
+      }
+    )
+    .eq(
+      'user_id',
+      user.id
+    )
+    .eq(
+      'status',
+      'verified'
+    )
+
 
   if (checkInError) {
     throw checkInError
   }
+
+
+  /* =========================================
+     COMPLETED JOURNEYS
+     ========================================= */
 
   const {
     data: completedJourneys,
     error: journeyError
   } = await supabase
     .from('user_journeys')
-    .select('journey_id')
-    .eq('user_id', user.id)
-    .eq('status', 'completed')
+    .select(
+      'journey_id'
+    )
+    .eq(
+      'user_id',
+      user.id
+    )
+    .eq(
+      'status',
+      'completed'
+    )
+
 
   if (journeyError) {
     throw journeyError
   }
 
+
   const completedJourneyIds =
     completedJourneys?.map(
-      item => item.journey_id
+      item =>
+        item.journey_id
     ) ?? []
+
+
+  /* =========================================
+     CHECK BADGES
+     ========================================= */
 
   const newlyAwarded = []
 
-  for (const badge of badges) {
+
+  for (
+    const badge of badges
+  ) {
     let qualified = false
 
-    if (badge.badge_type === 'checkin') {
+
+    /*
+      Huy hiệu theo số lần
+      check-in.
+    */
+    if (
+      badge.badge_type ===
+      'checkin'
+    ) {
       qualified =
         (checkInCount ?? 0) >=
         badge.requirement_value
     }
 
-    if (badge.badge_type === 'journey') {
+
+    /*
+      Huy hiệu theo
+      hành trình.
+    */
+    if (
+      badge.badge_type ===
+      'journey'
+    ) {
       qualified =
-        Boolean(badge.journey_id) &&
+        Boolean(
+          badge.journey_id
+        ) &&
         completedJourneyIds.includes(
           badge.journey_id
         )
     }
 
+
     if (!qualified) {
       continue
     }
 
-    const awardedBadge = await awardBadge(
-      user.id,
-      badge.id
-    )
+
+    const awardedBadge =
+      await awardBadge(
+        user.id,
+        badge.id
+      )
+
 
     if (awardedBadge) {
-      newlyAwarded.push(awardedBadge)
+      newlyAwarded.push(
+        awardedBadge
+      )
     }
   }
+
 
   return newlyAwarded
 }

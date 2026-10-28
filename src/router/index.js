@@ -15,7 +15,10 @@ import AchievementsView from '../views/AchievementsView.vue'
 import AboutView from '../views/AboutView.vue'
 import AuthView from '../views/AuthView.vue'
 import MapView from '../views/MapView.vue'
-
+import LocationDetailView from '../views/LocationDetailView.vue'
+import ForgotPasswordView from '../views/ForgotPasswordView.vue'
+import ResetPasswordView from '../views/ResetPasswordView.vue'
+import NotFoundView from '../views/NotFoundView.vue'
 
 const routes = [
   {
@@ -40,6 +43,12 @@ const routes = [
     path: '/locations',
     name: 'locations',
     component: LocationsView
+  },
+
+  {
+    path: '/locations/:id',
+    name: 'location-detail',
+    component: LocationDetailView
   },
 
   {
@@ -88,6 +97,24 @@ const routes = [
     path: '/auth',
     name: 'auth',
     component: AuthView
+  },
+
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'not-found',
+    component: NotFoundView
+  },
+
+  {
+    path: '/forgot-password',
+    name: 'forgot-password',
+    component: ForgotPasswordView
+  },
+
+  {
+    path: '/reset-password',
+    name: 'reset-password',
+    component: ResetPasswordView
   }
 ]
 

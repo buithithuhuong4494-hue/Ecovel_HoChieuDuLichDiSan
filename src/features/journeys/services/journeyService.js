@@ -1,7 +1,10 @@
 import { supabase } from '../../../lib/supabase'
 
 export async function getJourneys() {
-  const { data, error } = await supabase
+  const {
+    data,
+    error
+  } = await supabase
     .from('journeys')
     .select(`
       id,
@@ -9,9 +12,13 @@ export async function getJourneys() {
       slug,
       description,
       cover_image_url,
+      region,
+      theme,
+
       journey_locations (
         id,
         stop_order,
+
         locations (
           id,
           name,
@@ -20,8 +27,16 @@ export async function getJourneys() {
         )
       )
     `)
-    .eq('is_active', true)
-    .order('id', { ascending: true })
+    .eq(
+      'is_active',
+      true
+    )
+    .order(
+      'id',
+      {
+        ascending: true
+      }
+    )
 
   if (error) {
     throw error

@@ -27,7 +27,7 @@ const {
   result,
   history,
   popupVisible,
-  popupText,
+  popupData,
   loadingHistory,
   checkIn,
   loadHistory,
@@ -448,7 +448,7 @@ const selectedRadius = computed(() => {
 
     <CheckInPopup
       :visible="popupVisible"
-      :text="popupText"
+      :text="popupData"
       @close="closePopup"
     />
   </section>

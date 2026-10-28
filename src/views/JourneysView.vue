@@ -54,10 +54,7 @@ onMounted(async () => {
           </p>
         </div>
 
-        <div
-          v-if="loading"
-          class="journey-state"
-        >
+        <div v-if="loading" class="journey-state">
           <span class="journey-state-icon">
             🧭
           </span>
@@ -67,10 +64,7 @@ onMounted(async () => {
           </p>
         </div>
 
-        <div
-          v-else-if="errorMessage"
-          class="journey-state"
-        >
+        <div v-else-if="errorMessage" class="journey-state">
           <span class="journey-state-icon">
             !
           </span>
@@ -80,16 +74,9 @@ onMounted(async () => {
           </p>
         </div>
 
-        <div
-          v-else-if="journeys.length"
-          class="journeys-grid"
-        >
-          <RouterLink
-            v-for="journey in journeys"
-            :key="journey.id"
-            :to="`/journeys/${journey.id}`"
-            class="journey-list-card"
-          >
+        <div v-else-if="journeys.length" class="journeys-grid">
+          <RouterLink v-for="journey in journeys" :key="journey.id" :to="`/journeys/${journey.id}`"
+            class="journey-list-card">
             <div class="journey-list-card-top">
               <span class="journey-badge">
                 HÀNH TRÌNH
@@ -104,33 +91,40 @@ onMounted(async () => {
             </div>
 
             <div class="journey-card-number">
-              0{{ journey.id }}
+              {{
+                String(journey.id)
+                  .padStart(2, '0')
+              }}
+            </div>
+
+            <div class="journey-card-meta">
+              <span v-if="journey.region" class="journey-region">
+                📍 {{ journey.region }}
+              </span>
+
+              <span v-if="journey.theme" class="journey-theme">
+                {{ journey.theme }}
+              </span>
             </div>
 
             <h2>
               {{ journey.name }}
             </h2>
 
-            <p>
+            <p class="journey-card-description">
               {{
                 journey.description ||
-                'Khám phá hành trình di sản cùng ECOVEL.'
+              'Khám phá hành trình di sản cùng ECOVEL.'
               }}
             </p>
 
-            <div
-              v-if="journey.journey_locations?.length"
-              class="journey-list-preview"
-            >
-              <span
-                v-for="stop in [...journey.journey_locations]
-                  .sort(
-                    (a, b) =>
-                      a.stop_order - b.stop_order
-                  )
-                  .slice(0, 4)"
-                :key="stop.id"
-              >
+            <div v-if="journey.journey_locations?.length" class="journey-list-preview">
+              <span v-for="stop in [...journey.journey_locations]
+                .sort(
+                  (a, b) =>
+                    a.stop_order - b.stop_order
+                )
+                .slice(0, 4)" :key="stop.id">
                 <span class="journey-preview-dot">
                   •
                 </span>
@@ -151,10 +145,7 @@ onMounted(async () => {
           </RouterLink>
         </div>
 
-        <div
-          v-else
-          class="journey-state"
-        >
+        <div v-else class="journey-state">
           <span class="journey-state-icon">
             🗺️
           </span>
