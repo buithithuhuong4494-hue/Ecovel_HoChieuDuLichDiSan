@@ -940,201 +940,179 @@ span:nth-child(3) {
   }
 }
 
-/* =========================================
-   HOME HERO
-   ========================================= */
-
+/* =========================
+   HERO
+========================= */
 .home-hero {
-  width: 100%;
-  min-height: 620px;
-
   position: relative;
-  overflow: hidden;
+  min-height: 720px;
 
   display: flex;
   align-items: center;
   justify-content: flex-start;
 
-  padding: 80px 0;
+  padding: 110px 6% 90px;
 
   background:
     linear-gradient(
       90deg,
-      rgba(26, 28, 22, 0.72) 0%,
-      rgba(26, 28, 22, 0.42) 48%,
-      rgba(26, 28, 22, 0.12) 100%
+      rgba(28, 24, 20, 0.50) 0%,
+      rgba(28, 24, 20, 0.30) 28%,
+      rgba(28, 24, 20, 0.10) 52%,
+      rgba(28, 24, 20, 0.04) 100%
     ),
-    url("/images/Banner.jpg")
-    center / cover
-    no-repeat;
+    url("/images/Banner.jpg") center/cover no-repeat;
+
+  overflow: hidden;
 }
 
-
-/* HERO TEXT */
-
 .hero-text {
-  width: min(620px, 88%);
-
-  margin-left: 70px;
-  margin-right: auto;
-
-  padding: 40px 0;
-
   position: relative;
   z-index: 2;
+
+  width: 100%;
+  max-width: 560px;
+
+  margin-left: 24px;   /* dời qua trái */
+  margin-right: auto;  /* ép text bám trái */
 
   text-align: left;
 }
 
-
-/* TAG */
-
-.hero-text > span {
+.hero-text span {
   display: inline-flex;
+  align-items: center;
 
-  padding: 8px 14px;
+  margin-bottom: 22px;
+  padding: 12px 22px;
 
-  color: var(--white);
-
-  background:
-    rgba(200, 155, 90, 0.95);
+  background: #c99a4b;
+  color: #ffffff;
 
   border-radius: 999px;
 
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 800;
-
-  letter-spacing: 1px;
-
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-
-/* TITLE */
-
 .hero-text h1 {
-  max-width: 620px;
+  margin: 0 0 22px;
 
-  margin: 20px 0 18px;
+  color: #ffffff;
 
-  color: var(--white);
+  font-family: "Times New Roman", Times, serif;
+  font-size: clamp(48px, 5vw, 78px);
+  font-weight: 700;
+  line-height: 1.06;
 
-  font-family:
-    "Times New Roman",
-    Times,
-    serif;
-
-  font-size: clamp(48px, 5vw, 70px);
-
-  line-height: 1.05;
+  max-width: 540px; /* giới hạn để không đè logo giữa */
 }
-
-
-/* DESCRIPTION */
 
 .hero-text p {
-  max-width: 600px;
+  max-width: 520px;
 
-  margin: 0;
+  margin: 0 0 34px;
 
-  color:
-    rgba(255, 255, 255, 0.92);
+  color: rgba(255, 255, 255, 0.94);
 
-  font-size: 17px;
-
-  line-height: 1.7;
+  font-size: 18px;
+  line-height: 1.8;
 }
-
-
-/* BUTTONS */
 
 .hero-actions {
-  margin-top: 28px;
-
   display: flex;
   flex-wrap: wrap;
-
-  gap: 12px;
+  gap: 16px;
 }
-
 
 .hero-button,
 .hero-secondary-button {
-  min-height: 48px;
-
-  padding: 0 22px;
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
+  min-width: 190px;
+  height: 60px;
+  padding: 0 28px;
+
   border-radius: 999px;
 
-  font-size: 15px;
-  font-weight: 800;
+  font-size: 18px;
+  font-weight: 700;
+  text-decoration: none;
 
   transition:
     transform 0.25s ease,
+    opacity 0.25s ease,
     background 0.25s ease;
 }
 
-
 .hero-button {
-  color: #2e241a;
-  background: var(--gold);
+  background: #c99a4b;
+  color: #1f1a15;
 }
 
+.hero-button:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
 
 .hero-secondary-button {
-  color: var(--white);
-
-  background:
-    rgba(255, 255, 255, 0.12);
-
-  border:
-    1px solid
-    rgba(255, 255, 255, 0.4);
-
-  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(6px);
 }
 
-
-.hero-button:hover,
 .hero-secondary-button:hover {
   transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.24);
 }
 
-
-/* MOBILE */
-
-@media (max-width: 768px) {
-
-  .home-hero {
-    min-height: 560px;
-
-    padding: 60px 0;
-
-    background-position: center;
-  }
-
-
+/* responsive */
+@media (max-width: 1200px) {
   .hero-text {
-    width: calc(100% - 40px);
-
-    margin-left: 20px;
-    margin-right: 20px;
-
-    padding: 30px 0;
+    max-width: 520px;
+    margin-left: 12px;
   }
-
 
   .hero-text h1 {
-    font-size: clamp(38px, 10vw, 52px);
+    max-width: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  .home-hero {
+    min-height: 620px;
+    padding: 90px 20px 70px;
   }
 
+  .hero-text {
+    margin-left: 0;
+    max-width: 100%;
+  }
+
+  .hero-text h1 {
+    font-size: clamp(38px, 9vw, 56px);
+    max-width: 100%;
+  }
 
   .hero-text p {
-    font-size: 15px;
+    max-width: 100%;
+    font-size: 16px;
+  }
+
+  .hero-actions {
+    gap: 12px;
+  }
+
+  .hero-button,
+  .hero-secondary-button {
+    min-width: 170px;
+    height: 54px;
+    font-size: 16px;
   }
 }
 
