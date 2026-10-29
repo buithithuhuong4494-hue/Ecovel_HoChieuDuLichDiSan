@@ -9,6 +9,11 @@ import {
   useRoute
 } from 'vue-router'
 
+import {
+  getMyJourneyStatus,
+  joinJourney
+} from '../features/journeys/services/journeyService.js'
+
 import AppHeader from '../components/layout/AppHeader.vue'
 import AppFooter from '../components/layout/AppFooter.vue'
 
@@ -22,15 +27,15 @@ import '../assets/styles/home.css'
 const route = useRoute()
 
 const journey = ref(null)
+const checkedLocationIds = ref([])
+const userJourney = ref(null)
+const currentUser = ref(null)
 
-const checkedLocationIds =
-  ref([])
+const loading = ref(true)
+const joiningJourney = ref(false)
 
-const loading =
-  ref(true)
-
-const errorMessage =
-  ref('')
+const errorMessage = ref('')
+const joinMessage = ref('')
 
 
 /* =========================================
@@ -38,10 +43,13 @@ const errorMessage =
    ========================================= */
 
 onMounted(async () => {
+  loading.value = true
+  errorMessage.value = ''
+
   try {
 
     /* =====================================
-       LẤY THÔNG TIN HÀNH TRÌNH
+       1. LOAD JOURNEY
        ===================================== */
 
     const {
@@ -71,12 +79,17 @@ onMounted(async () => {
       `)
       .eq(
         'id',
-        route.params.id
+        Number(route.params.id)
       )
       .single()
 
 
     if (journeyError) {
+      console.error(
+        'Lỗi lấy journey:',
+        journeyError
+      )
+
       throw journeyError
     }
 
@@ -86,60 +99,132 @@ onMounted(async () => {
 
 
     /* =====================================
-       LẤY USER
+       2. LOAD USER
        ===================================== */
 
-    const {
-      data: {
-        user
-      },
+    try {
 
-      error: userError
+      const {
+        data: {
+          user
+        },
+        error: userError
+      } = await supabase.auth
+        .getUser()
 
-    } = await supabase.auth
-      .getUser()
 
+      if (userError) {
 
-    if (userError) {
-      throw userError
+        console.warn(
+          'Không lấy được user:',
+          userError
+        )
+
+        currentUser.value =
+          null
+
+      } else {
+
+        currentUser.value =
+          user
+
+      }
+
+    } catch (error) {
+
+      console.warn(
+        'Lỗi auth:',
+        error
+      )
+
+      currentUser.value =
+        null
     }
 
 
     /* =====================================
-       LẤY CÁC LOCATION ĐÃ CHECK-IN
+       3. LOAD USER JOURNEY
        ===================================== */
 
-    if (user) {
+    if (currentUser.value) {
 
-      const {
-        data: checkIns,
-        error: checkInError
+      try {
 
-      } = await supabase
-        .from('check_ins')
-        .select(
-          'location_id'
+        userJourney.value =
+          await getMyJourneyStatus(
+            journeyData.id
+          )
+
+      } catch (error) {
+
+        /*
+          Không cho lỗi user_journeys
+          làm sập toàn bộ trang.
+        */
+
+        console.warn(
+          'Không lấy được trạng thái hành trình:',
+          error
         )
-        .eq(
-          'user_id',
-          user.id
-        )
-        .eq(
-          'status',
-          'verified'
-        )
 
-
-      if (checkInError) {
-        throw checkInError
+        userJourney.value =
+          null
       }
 
+    }
 
-      checkedLocationIds.value =
-        checkIns.map(
-          item =>
-            item.location_id
+
+    /* =====================================
+       4. LOAD CHECK-INS
+       ===================================== */
+
+    if (currentUser.value) {
+
+      try {
+
+        const {
+          data: checkIns,
+          error: checkInError
+        } = await supabase
+          .from('check_ins')
+          .select(
+            'location_id'
+          )
+          .eq(
+            'user_id',
+            currentUser.value.id
+          )
+          .eq(
+            'status',
+            'verified'
+          )
+
+
+        if (checkInError) {
+          throw checkInError
+        }
+
+
+        checkedLocationIds.value =
+          (
+            checkIns ??
+            []
+          ).map(
+            item =>
+              item.location_id
+          )
+
+      } catch (error) {
+
+        console.warn(
+          'Không lấy được lịch sử check-in:',
+          error
         )
+
+        checkedLocationIds.value =
+          []
+      }
+
     }
 
   } catch (error) {
@@ -159,6 +244,67 @@ onMounted(async () => {
       false
   }
 })
+
+
+/* =========================================
+   JOIN JOURNEY
+   ========================================= */
+
+async function handleJoinJourney() {
+
+  if (
+    !journey.value
+  ) {
+    return
+  }
+
+
+  if (
+    !currentUser.value
+  ) {
+    joinMessage.value =
+      'Bạn cần đăng nhập để bắt đầu hành trình.'
+
+    return
+  }
+
+
+  try {
+
+    joiningJourney.value =
+      true
+
+    joinMessage.value =
+      ''
+
+
+    userJourney.value =
+      await joinJourney(
+        journey.value.id
+      )
+
+
+    joinMessage.value =
+      'Hành trình đã được thêm vào hồ sơ của bạn.'
+
+  } catch (error) {
+
+    console.error(
+      'Lỗi bắt đầu hành trình:',
+      error
+    )
+
+
+    joinMessage.value =
+      error?.message ||
+      'Không thể bắt đầu hành trình.'
+
+  } finally {
+
+    joiningJourney.value =
+      false
+  }
+}
 
 
 /* =========================================
@@ -193,10 +339,10 @@ const sortedStops =
 
 const totalLocations =
   computed(() => {
-    return (
-      sortedStops.value
-        .length
-    )
+
+    return sortedStops
+      .value
+      .length
   })
 
 
@@ -210,10 +356,10 @@ const completedLocations =
     return sortedStops.value
       .filter(
         stop =>
-          checkedLocationIds.value
+          checkedLocationIds
+            .value
             .includes(
-              stop.locations
-                ?.id
+              stop.locations?.id
             )
       )
       .length
@@ -257,8 +403,7 @@ const nextStop =
           !checkedLocationIds
             .value
             .includes(
-              stop.locations
-                ?.id
+              stop.locations?.id
             )
       )
   })
@@ -348,6 +493,7 @@ const progressDescription =
 function isCheckedIn(
   locationId
 ) {
+
   return checkedLocationIds
     .value
     .includes(
@@ -366,10 +512,12 @@ function isCheckedIn(
     <main class="page-content">
 
       <!-- LOADING -->
+
       <div
         v-if="loading"
         class="journey-detail-state"
       >
+
         <span>
           🧭
         </span>
@@ -377,14 +525,17 @@ function isCheckedIn(
         <p>
           Đang chuẩn bị hành trình của bạn...
         </p>
+
       </div>
 
 
       <!-- ERROR -->
+
       <div
         v-else-if="errorMessage"
         class="journey-detail-state"
       >
+
         <span>
           !
         </span>
@@ -392,10 +543,12 @@ function isCheckedIn(
         <p>
           {{ errorMessage }}
         </p>
+
       </div>
 
 
       <!-- CONTENT -->
+
       <template
         v-else-if="journey"
       >
@@ -428,7 +581,6 @@ function isCheckedIn(
           </p>
 
 
-          <!-- META -->
           <div
             class="journey-detail-meta"
           >
@@ -465,7 +617,6 @@ function isCheckedIn(
                 Tiến độ hành trình
               </span>
 
-
               <strong>
                 {{ progressPercent }}%
               </strong>
@@ -497,7 +648,6 @@ function isCheckedIn(
                 {{ progressTitle }}
               </h3>
 
-
               <p>
                 {{ progressDescription }}
               </p>
@@ -505,7 +655,170 @@ function isCheckedIn(
             </div>
 
 
-            <!-- ACTION -->
+            <!-- =================================
+                 STATUS / JOIN
+                 ================================= -->
+
+            <div
+              class="journey-progress-message"
+            >
+
+              <!-- NOT LOGGED IN -->
+
+              <template
+                v-if="!currentUser"
+              >
+
+                <span
+                  class="home-tag"
+                >
+                  HÀNH TRÌNH CỦA BẠN
+                </span>
+
+
+                <h3>
+                  Đăng nhập để bắt đầu
+                </h3>
+
+
+                <p>
+                  Đăng nhập để lưu tiến độ,
+                  check-in và mở khóa thành tựu.
+                </p>
+
+
+                <RouterLink
+                  to="/auth"
+                  class="home-primary-btn"
+                >
+                  Đăng nhập
+                </RouterLink>
+
+              </template>
+
+
+              <!-- NOT JOINED -->
+
+              <template
+                v-else-if="
+                  !userJourney
+                "
+              >
+
+                <span
+                  class="home-tag"
+                >
+                  HÀNH TRÌNH CỦA BẠN
+                </span>
+
+
+                <h3>
+                  Sẵn sàng khám phá?
+                </h3>
+
+
+                <p>
+                  Bắt đầu hành trình để lưu
+                  tiến độ và ghi dấu từng điểm đến.
+                </p>
+
+
+                <button
+                  type="button"
+                  class="home-primary-btn"
+                  :disabled="
+                    joiningJourney
+                  "
+                  @click="
+                    handleJoinJourney
+                  "
+                >
+                  {{
+                    joiningJourney
+                      ? 'Đang bắt đầu...'
+                      : 'Bắt đầu hành trình'
+                  }}
+                </button>
+
+              </template>
+
+
+              <!-- JOINED -->
+
+              <template
+                v-else-if="
+                  userJourney.status ===
+                  'joined'
+                "
+              >
+
+                <span
+                  class="
+                    status-badge
+                    pending
+                  "
+                >
+                  ĐANG KHÁM PHÁ
+                </span>
+
+
+                <h3>
+                  Hành trình đang diễn ra
+                </h3>
+
+
+                <p>
+                  Tiếp tục check-in các điểm đến
+                  còn lại để hoàn thành hành trình.
+                </p>
+
+              </template>
+
+
+              <!-- COMPLETED -->
+
+              <template
+                v-else-if="
+                  userJourney.status ===
+                  'completed'
+                "
+              >
+
+                <span
+                  class="
+                    status-badge
+                    checked
+                  "
+                >
+                  ✓ ĐÃ HOÀN THÀNH
+                </span>
+
+
+                <h3>
+                  Một hành trình đáng nhớ
+                </h3>
+
+
+                <p>
+                  Bạn đã chinh phục toàn bộ
+                  các điểm đến trong hành trình.
+                </p>
+
+              </template>
+
+
+              <p
+                v-if="joinMessage"
+                class="completed-text"
+              >
+                {{ joinMessage }}
+              </p>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
             <div
               class="journey-detail-actions"
             >
@@ -522,11 +835,10 @@ function isCheckedIn(
 
               <RouterLink
                 v-if="
-                  progressPercent <
-                  100 &&
-                  nextStop
-                    ?.locations
-                    ?.id
+                  currentUser &&
+                  userJourney &&
+                  progressPercent < 100 &&
+                  nextStop?.locations?.id
                 "
                 :to="
                   `/checkin?location=${nextStop.locations.id}`
@@ -539,6 +851,7 @@ function isCheckedIn(
 
               <RouterLink
                 v-else-if="
+                  currentUser &&
                   progressPercent ===
                   100
                 "
@@ -579,38 +892,32 @@ function isCheckedIn(
 
 
             <p>
-              Khám phá lần lượt
-              các điểm đến,
-              check-in khi bạn
-              có mặt và hoàn thành
+              Khám phá lần lượt các điểm đến,
+              check-in khi bạn có mặt và hoàn thành
               hành trình ECOVEL.
             </p>
 
           </div>
 
 
-          <!-- LOCATION GRID -->
           <div
             class="journey-location-grid"
           >
 
             <article
               v-for="
-                stop in
-                sortedStops
+                stop in sortedStops
               "
               :key="stop.id"
               class="journey-location-card"
               :class="{
                 completed:
                   isCheckedIn(
-                    stop.locations
-                      ?.id
+                    stop.locations?.id
                   )
               }"
             >
 
-              <!-- NUMBER -->
               <div
                 class="journey-stop-number"
               >
@@ -625,7 +932,6 @@ function isCheckedIn(
               </div>
 
 
-              <!-- IMAGE -->
               <div
                 class="journey-location-image"
               >
@@ -641,7 +947,7 @@ function isCheckedIn(
                   "
                   :alt="
                     stop.locations
-                      .name
+                      ?.name
                   "
                 />
 
@@ -649,8 +955,7 @@ function isCheckedIn(
                 <div
                   v-if="
                     isCheckedIn(
-                      stop.locations
-                        ?.id
+                      stop.locations?.id
                     )
                   "
                   class="
@@ -663,7 +968,6 @@ function isCheckedIn(
               </div>
 
 
-              <!-- INFO -->
               <div
                 class="journey-location-info"
               >
@@ -701,12 +1005,10 @@ function isCheckedIn(
                   </div>
 
 
-                  <!-- STATUS -->
                   <span
                     v-if="
                       isCheckedIn(
-                        stop.locations
-                          ?.id
+                        stop.locations?.id
                       )
                     "
                     class="
@@ -731,7 +1033,6 @@ function isCheckedIn(
                 </div>
 
 
-                <!-- DESCRIPTION -->
                 <p
                   class="
                     journey-location-description
@@ -745,12 +1046,12 @@ function isCheckedIn(
                 </p>
 
 
-                <!-- ADDRESS -->
                 <p
                   class="
                     journey-location-address
                   "
                 >
+
                   <span>
                     📍
                   </span>
@@ -759,10 +1060,10 @@ function isCheckedIn(
                     stop.locations
                       ?.address
                   }}
+
                 </p>
 
 
-                <!-- ACTIONS -->
                 <div
                   class="
                     journey-location-actions
@@ -771,9 +1072,10 @@ function isCheckedIn(
 
                   <RouterLink
                     v-if="
+                      currentUser &&
+                      userJourney &&
                       !isCheckedIn(
-                        stop.locations
-                          ?.id
+                        stop.locations?.id
                       )
                     "
                     :to="
@@ -784,6 +1086,43 @@ function isCheckedIn(
                     "
                   >
                     Check-in tại đây
+                  </RouterLink>
+
+
+                  <button
+                    v-else-if="
+                      currentUser &&
+                      !userJourney
+                    "
+                    type="button"
+                    class="
+                      home-primary-btn
+                    "
+                    :disabled="
+                      joiningJourney
+                    "
+                    @click="
+                      handleJoinJourney
+                    "
+                  >
+                    {{
+                      joiningJourney
+                        ? 'Đang bắt đầu...'
+                        : 'Bắt đầu hành trình'
+                    }}
+                  </button>
+
+
+                  <RouterLink
+                    v-else-if="
+                      !currentUser
+                    "
+                    to="/auth"
+                    class="
+                      home-primary-btn
+                    "
+                  >
+                    Đăng nhập để check-in
                   </RouterLink>
 
 
@@ -822,9 +1161,7 @@ function isCheckedIn(
                ================================= -->
 
           <div
-            class="
-              journey-detail-footer
-            "
+            class="journey-detail-footer"
           >
 
             <span class="home-tag">
@@ -834,8 +1171,7 @@ function isCheckedIn(
 
             <h2>
               {{
-                progressPercent ===
-                100
+                progressPercent === 100
                   ? 'Một hành trình đã trở thành kỷ niệm'
                   : 'Còn những điểm đến đang chờ bạn'
               }}
@@ -844,11 +1180,8 @@ function isCheckedIn(
 
             <p>
               {{
-                progressPercent ===
-                100
-
+                progressPercent === 100
                   ? 'Bạn đã hoàn thành tất cả điểm đến trong hành trình này. Hãy tiếp tục khám phá những hành trình mới cùng ECOVEL.'
-
                   : 'Mỗi lần check-in là thêm một dấu ấn vào hộ chiếu du lịch ECOVEL của bạn.'
               }}
             </p>
@@ -856,23 +1189,15 @@ function isCheckedIn(
 
             <RouterLink
               :to="
-                progressPercent ===
-                100
-
+                progressPercent === 100
                   ? '/journeys'
-
                   : `/map?journey=${journey.id}`
               "
-              class="
-                home-primary-btn
-              "
+              class="home-primary-btn"
             >
               {{
-                progressPercent ===
-                100
-
+                progressPercent === 100
                   ? 'Khám phá hành trình khác'
-
                   : 'Xem bản đồ hành trình'
               }}
             </RouterLink>

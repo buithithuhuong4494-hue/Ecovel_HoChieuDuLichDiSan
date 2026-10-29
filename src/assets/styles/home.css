@@ -945,87 +945,197 @@ span:nth-child(3) {
    ========================================= */
 
 .home-hero {
-  min-height: 620px;
   width: 100%;
+  min-height: 620px;
+
   position: relative;
   overflow: hidden;
+
   display: flex;
   align-items: center;
+  justify-content: flex-start;
+
+  padding: 80px 0;
+
   background:
-    linear-gradient(90deg, rgba(26, 28, 22, 0.72) 0%, rgba(26, 28, 22, 0.4) 48%, rgba(26, 28, 22, 0.12) 100%),
-    url("/images/Banner.jpg") center / cover no-repeat;
+    linear-gradient(
+      90deg,
+      rgba(26, 28, 22, 0.72) 0%,
+      rgba(26, 28, 22, 0.42) 48%,
+      rgba(26, 28, 22, 0.12) 100%
+    ),
+    url("/images/Banner.jpg")
+    center / cover
+    no-repeat;
 }
+
+
+/* HERO TEXT */
 
 .hero-text {
-  width: min(720px, 88%);
-  margin-left: max(7%, calc((100vw - 1220px) / 2));
-  padding: 80px 0;
+  width: min(620px, 88%);
+
+  margin-left: 70px;
+  margin-right: auto;
+
+  padding: 40px 0;
+
+  position: relative;
+  z-index: 2;
+
+  text-align: left;
 }
 
-.hero-text>span {
+
+/* TAG */
+
+.hero-text > span {
   display: inline-flex;
+
   padding: 8px 14px;
+
   color: var(--white);
-  background: rgba(200, 155, 90, 0.95);
+
+  background:
+    rgba(200, 155, 90, 0.95);
+
   border-radius: 999px;
+
   font-size: 12px;
   font-weight: 800;
+
   letter-spacing: 1px;
+
   text-transform: uppercase;
 }
 
+
+/* TITLE */
+
 .hero-text h1 {
-  max-width: 700px;
+  max-width: 620px;
+
   margin: 20px 0 18px;
+
   color: var(--white);
-  font-family: "Times New Roman", Times, serif;
+
+  font-family:
+    "Times New Roman",
+    Times,
+    serif;
+
   font-size: clamp(48px, 5vw, 70px);
+
   line-height: 1.05;
 }
 
+
+/* DESCRIPTION */
+
 .hero-text p {
-  max-width: 610px;
+  max-width: 600px;
+
   margin: 0;
-  color: rgba(255, 255, 255, 0.92);
+
+  color:
+    rgba(255, 255, 255, 0.92);
+
   font-size: 17px;
+
   line-height: 1.7;
 }
 
+
+/* BUTTONS */
+
 .hero-actions {
   margin-top: 28px;
+
   display: flex;
   flex-wrap: wrap;
+
   gap: 12px;
 }
+
 
 .hero-button,
 .hero-secondary-button {
   min-height: 48px;
+
   padding: 0 22px;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   border-radius: 999px;
+
   font-size: 15px;
   font-weight: 800;
-  transition: transform 0.25s ease, background 0.25s ease;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
 }
+
 
 .hero-button {
   color: #2e241a;
   background: var(--gold);
 }
 
+
 .hero-secondary-button {
   color: var(--white);
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+
+  background:
+    rgba(255, 255, 255, 0.12);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.4);
+
   backdrop-filter: blur(8px);
 }
+
 
 .hero-button:hover,
 .hero-secondary-button:hover {
   transform: translateY(-2px);
+}
+
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+  .home-hero {
+    min-height: 560px;
+
+    padding: 60px 0;
+
+    background-position: center;
+  }
+
+
+  .hero-text {
+    width: calc(100% - 40px);
+
+    margin-left: 20px;
+    margin-right: 20px;
+
+    padding: 30px 0;
+  }
+
+
+  .hero-text h1 {
+    font-size: clamp(38px, 10vw, 52px);
+  }
+
+
+  .hero-text p {
+    font-size: 15px;
+  }
 }
 
 /* =========================================
@@ -6906,4 +7016,151 @@ span:nth-child(3) {
 
   transform:
     translateX(-3px);
+}
+/* =========================================================
+   ECOVEL - JOURNEY DETAIL FINAL ALIGNMENT FIX
+   ========================================================= */
+
+.journey-progress {
+  width: 100%;
+  max-width: 760px;
+  margin: 38px auto 0;
+  padding: 32px 36px;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: 0 12px 34px rgba(53, 42, 31, 0.06);
+  backdrop-filter: blur(8px);
+  text-align: left;
+}
+
+.journey-progress-header {
+  width: 100%;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  color: var(--heritage-brown);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.journey-progress-header strong {
+  margin: 0;
+  color: var(--eco-green);
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.journey-progress-bar {
+  width: 100%;
+  height: 12px;
+  margin: 0;
+  overflow: hidden;
+  background: #e8e1d6;
+  border-radius: 999px;
+}
+
+.journey-progress-value {
+  height: 100%;
+  background: linear-gradient(90deg, var(--eco-green), #5b9667);
+  border-radius: 999px;
+  transition: width 0.6s ease;
+}
+
+.journey-progress-message {
+  width: 100%;
+  margin-top: 30px;
+}
+
+.journey-progress-message + .journey-progress-message {
+  margin-top: 28px;
+  padding-top: 26px;
+  border-top: 1px solid var(--line);
+}
+
+.journey-progress-message h3 {
+  margin: 8px 0 8px;
+  color: var(--text);
+  font-family: "Times New Roman", Times, serif;
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.journey-progress-message p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.journey-progress-message .status-badge {
+  width: fit-content;
+  margin: 0 0 4px;
+}
+
+.journey-detail-actions {
+  width: 100%;
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.journey-detail-actions .home-primary-btn,
+.journey-detail-actions .journey-next-button {
+  width: auto;
+  min-width: 0;
+  min-height: 48px;
+  margin: 0;
+  padding: 0 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: var(--white);
+  background: var(--eco-green);
+  border: none;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.journey-detail-actions .home-primary-btn:hover,
+.journey-detail-actions .journey-next-button:hover {
+  transform: translateY(-2px);
+  background: var(--eco-green-dark);
+  box-shadow: 0 10px 24px rgba(47, 107, 60, 0.18);
+}
+
+@media (max-width: 768px) {
+  .journey-progress {
+    margin-top: 28px;
+    padding: 26px 22px;
+    border-radius: 20px;
+  }
+
+  .journey-progress-message h3 {
+    font-size: 22px;
+  }
+
+  .journey-detail-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .journey-detail-actions .home-primary-btn,
+  .journey-detail-actions .journey-next-button {
+    width: 100%;
+  }
 }
