@@ -1,8 +1,11 @@
 <template>
   <section class="about-page">
+
     <!-- HERO -->
     <div class="about-hero">
+
       <div class="about-hero-content">
+
         <span class="home-tag">
           VỀ ECOVEL
         </span>
@@ -19,40 +22,56 @@
           lưu lại dấu ấn hành trình và lan tỏa
           tinh thần du lịch có trách nhiệm.
         </p>
+
       </div>
 
+
+      <!-- CARD BÊN PHẢI -->
       <div class="about-hero-note">
+
         <span>
-          ECOVEL
+          DU LỊCH XANH
         </span>
 
         <p>
-          Travel local
+          Travel Local
           <br />
-          Experience heritage
+          Trải nghiệm Global
         </p>
+
       </div>
+
     </div>
+
 
     <!-- STORY -->
     <section class="about-story">
+
       <div class="about-story-image">
+
         <img
           src="/images/Nha_tho_Duc_Ba.jpg"
           alt="Nhà thờ Đức Bà"
         />
 
         <div class="about-story-caption">
-          <span>01</span>
+
+          <span>
+            01
+          </span>
 
           <p>
             Khám phá di sản bằng trải nghiệm
             thực tế tại từng điểm đến.
           </p>
+
         </div>
+
       </div>
 
+
       <div class="about-story-content">
+
         <span class="home-tag">
           CÂU CHUYỆN ECOVEL
         </span>
@@ -85,12 +104,17 @@
           một dấu mốc được lưu lại
           trong hộ chiếu du lịch của bạn.
         </p>
+
       </div>
+
     </section>
+
 
     <!-- VALUES -->
     <section class="about-values">
+
       <div class="home-section-heading">
+
         <span class="home-tag">
           GIÁ TRỊ ECOVEL
         </span>
@@ -105,10 +129,14 @@
           du lịch vừa thú vị, vừa có trách nhiệm
           với văn hóa và môi trường.
         </p>
+
       </div>
 
+
       <div class="about-value-grid">
+
         <article class="about-value-card">
+
           <span class="about-value-number">
             01
           </span>
@@ -126,9 +154,12 @@
             văn hóa và di sản theo
             từng hành trình rõ ràng.
           </p>
+
         </article>
 
+
         <article class="about-value-card">
+
           <span class="about-value-number">
             02
           </span>
@@ -146,9 +177,12 @@
             và lưu lại những nơi
             bạn đã thực sự đặt chân đến.
           </p>
+
         </article>
 
+
         <article class="about-value-card">
+
           <span class="about-value-number">
             03
           </span>
@@ -166,9 +200,12 @@
             nhỏ góp phần giảm tác động
             đến môi trường.
           </p>
+
         </article>
 
+
         <article class="about-value-card">
+
           <span class="about-value-number">
             04
           </span>
@@ -186,13 +223,19 @@
             đến lịch sử, văn hóa
             và giá trị bản địa.
           </p>
+
         </article>
+
       </div>
+
     </section>
+
 
     <!-- GREEN TRAVEL -->
     <section class="about-green">
+
       <div class="about-green-heading">
+
         <span class="home-tag">
           DU LỊCH CÓ TRÁCH NHIỆM
         </span>
@@ -207,58 +250,89 @@
           tạo ra trải nghiệm tích cực cho
           điểm đến và cộng đồng địa phương.
         </p>
+
       </div>
 
+
       <div class="about-green-list">
+
         <div class="about-green-item">
-          <span>01</span>
+
+          <span>
+            01
+          </span>
 
           <p>
             Mang theo bình nước cá nhân
             trong hành trình.
           </p>
+
         </div>
 
+
         <div class="about-green-item">
-          <span>02</span>
+
+          <span>
+            02
+          </span>
 
           <p>
             Hạn chế sản phẩm nhựa
             dùng một lần.
           </p>
+
         </div>
 
+
         <div class="about-green-item">
-          <span>03</span>
+
+          <span>
+            03
+          </span>
 
           <p>
             Ưu tiên đi bộ hoặc
             phương tiện công cộng.
           </p>
+
         </div>
 
+
         <div class="about-green-item">
-          <span>04</span>
+
+          <span>
+            04
+          </span>
 
           <p>
             Giữ gìn vệ sinh và
             cảnh quan tại điểm tham quan.
           </p>
+
         </div>
 
+
         <div class="about-green-item">
-          <span>05</span>
+
+          <span>
+            05
+          </span>
 
           <p>
             Ủng hộ sản phẩm thủ công
             và thương hiệu địa phương.
           </p>
+
         </div>
+
       </div>
+
     </section>
+
 
     <!-- FINAL CTA -->
     <section class="about-final-cta">
+
       <span class="home-tag">
         BẮT ĐẦU KHÁM PHÁ
       </span>
@@ -276,6 +350,7 @@
       </p>
 
       <div class="about-final-actions">
+
         <RouterLink
           to="/journeys"
           class="home-primary-btn"
@@ -289,7 +364,10 @@
         >
           Xem bản đồ →
         </RouterLink>
+
       </div>
+
     </section>
+
   </section>
 </template>

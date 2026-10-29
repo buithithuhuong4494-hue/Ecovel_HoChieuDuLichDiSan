@@ -73,7 +73,7 @@ const activeTab = ref('login')
         </span>
 
         <span>
-          Travel local · Experience heritage
+          Du lịch xanh - Travel local - Trải nghiệm global
         </span>
       </div>
     </section>
