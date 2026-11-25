@@ -7142,3 +7142,269 @@ span:nth-child(3) {
     width: 100%;
   }
 }
+/* ==============================
+   ABOUT INTRO HERO
+============================== */
+
+.about-intro-hero {
+  position: relative;
+
+  /* Tràn toàn bộ chiều ngang màn hình */
+  width: 100vw;
+  max-width: none;
+  margin-left: calc(50% - 50vw);
+
+  /* Chiều cao bằng màn hình trừ Header */
+  min-height: calc(100vh - 80px);
+  min-height: calc(100svh - 80px);
+
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+
+  padding: 90px 8%;
+  overflow: hidden;
+  isolation: isolate;
+
+  background-image: url("/images/Banner.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.about-intro-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(20, 38, 22, 0.72) 0%,
+      rgba(20, 38, 22, 0.48) 48%,
+      rgba(20, 38, 22, 0.12) 100%
+    );
+}
+
+/* Nội dung bên trái */
+
+.about-intro-content {
+  position: relative;
+  z-index: 2;
+  width: 65%;
+  max-width: 850px;
+  color: #fff;
+}
+
+.about-intro-tag {
+  display: inline-block;
+  padding: 15px 30px;
+  margin-bottom: 30px;
+  border-radius: 40px;
+  background: #c99b45;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.about-intro-content h1 {
+  margin: 0 0 28px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(42px, 5.5vw, 76px);
+  line-height: 1.12;
+  font-weight: 700;
+  color: #fff;
+}
+
+.about-intro-content > p {
+  max-width: 650px;
+  margin: 0;
+  color: #fff;
+  font-size: 19px;
+  line-height: 1.8;
+}
+
+/* Hai nút điều hướng */
+
+.about-intro-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 38px;
+}
+
+.about-intro-primary,
+.about-intro-secondary {
+  min-width: 220px;
+  min-height: 65px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 16px 30px;
+  border-radius: 40px;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.about-intro-primary {
+  background: #c99b45;
+  color: #1c2418;
+  border: 1px solid #c99b45;
+}
+
+.about-intro-primary:hover {
+  background: #e0b65e;
+  transform: translateY(-4px);
+}
+
+.about-intro-secondary {
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(8px);
+}
+
+.about-intro-secondary:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-4px);
+}
+
+.about-intro-brand-divider::before,
+.about-intro-brand-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #174c2c;
+}
+
+.about-intro-brand-divider span {
+  font-size: 22px;
+}
+/* Dòng chữ phía dưới */
+
+.about-intro-bottom {
+  position: absolute;
+  bottom: 25px;
+  left: 8%;
+  z-index: 2;
+  display: flex;
+  gap: 12px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 3px;
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+  .about-intro-hero {
+    min-height: 650px;
+    padding: 80px 6%;
+    background-position: 60% center;
+  }
+
+  .about-intro-content {
+    width: 75%;
+  }
+
+  .about-intro-brand {
+    top: 8%;
+    right: 5%;
+    width: 25%;
+  }
+
+  .about-intro-content h1 {
+    font-size: 48px;
+  }
+}
+
+@media (max-width: 600px) {
+  .about-intro-hero {
+    min-height: 700px;
+    align-items: flex-end;
+    padding: 60px 24px 85px;
+    background-position: 58% center;
+  }
+
+  .about-intro-overlay {
+    background: linear-gradient(
+      0deg,
+      rgba(20, 38, 22, 0.88) 0%,
+      rgba(20, 38, 22, 0.55) 65%,
+      rgba(20, 38, 22, 0.2) 100%
+    );
+  }
+
+  .about-intro-content {
+    width: 100%;
+  }
+
+  .about-intro-tag {
+    padding: 11px 20px;
+    margin-bottom: 22px;
+    font-size: 12px;
+  }
+
+  .about-intro-content h1 {
+    font-size: 39px;
+  }
+
+  .about-intro-content > p {
+    font-size: 15px;
+  }
+
+  .about-intro-actions {
+    gap: 12px;
+    margin-top: 25px;
+  }
+
+  .about-intro-primary,
+  .about-intro-secondary {
+    min-width: 0;
+    min-height: 54px;
+    padding: 13px 18px;
+    font-size: 14px;
+  }
+
+  .about-intro-brand {
+    top: 35px;
+    right: 24px;
+    width: auto;
+  }
+
+  .about-intro-brand-name {
+    font-size: 30px;
+  }
+
+  .about-intro-brand-divider {
+    margin: 7px 0;
+  }
+
+  .about-intro-brand p {
+    font-size: 14px;
+  }
+
+  .about-intro-bottom {
+    left: 24px;
+    bottom: 22px;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+  }
+}
+/* Chỉ áp dụng cho trang Về ECOVEL */
+.about-page .about-intro-hero {
+  width: 100vw;
+  height: calc(100vh - 80px);
+  height: calc(100svh - 80px);
+  min-height: 500px;
+
+  margin-left: calc(50% - 50vw);
+
+  background-image: url("/images/Bannerr.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}

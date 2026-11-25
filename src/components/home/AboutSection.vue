@@ -1,48 +1,8 @@
 <template>
   <section class="about-page">
 
-    <!-- HERO -->
-    <div class="about-hero">
-
-      <div class="about-hero-content">
-
-        <span class="home-tag">
-          VỀ ECOVEL
-        </span>
-
-        <h1>
-          Mỗi hành trình
-          <br />
-          là một cách gìn giữ di sản
-        </h1>
-
-        <p>
-          ECOVEL – Hộ chiếu Du lịch Di sản
-          giúp người trẻ khám phá điểm đến,
-          lưu lại dấu ấn hành trình và lan tỏa
-          tinh thần du lịch có trách nhiệm.
-        </p>
-
-      </div>
-
-
-      <!-- CARD BÊN PHẢI -->
-      <div class="about-hero-note">
-
-        <span>
-          DU LỊCH XANH
-        </span>
-
-        <p>
-          Travel Local
-          <br />
-          Trải nghiệm Global
-        </p>
-
-      </div>
-
-    </div>
-
+<!-- HERO CHỈ HIỂN THỊ HÌNH -->
+<section class="about-intro-hero"></section>
 
     <!-- STORY -->
     <section class="about-story">
